@@ -22,7 +22,7 @@ from core.models import (
     Tag,
     Ingredient,
 )
-from recipe import serializer
+from recipe import serializers
 
 
 @extend_schema_view(
@@ -44,7 +44,7 @@ from recipe import serializer
 )
 class RecipeViewSet(viewsets.ModelViewSet):
     """View for manage recipe APIs."""
-    serializer_class = serializer.RecipeDetailSerializer
+    serializer_class = serializers.RecipeDetailSerializer
     queryset = Recipe.objects.all()
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
@@ -72,9 +72,9 @@ class RecipeViewSet(viewsets.ModelViewSet):
     def get_serializer_class(self):
         """Return serializer class for request."""
         if self.action == 'list':
-            return serializer.RecipeSerializer
+            return serializers.RecipeSerializer
         elif self.action == 'upload_image':
-            return serializer.RecipeImageSerializer
+            return serializers.RecipeImageSerializer
 
         return self.serializer_class
 
@@ -130,11 +130,11 @@ class BaseRecipeAttrViewSet(mixins.DestroyModelMixin,
 
 class TagViewSet(BaseRecipeAttrViewSet):
     """Manage tags in the database."""
-    serializer_class = serializer.TagSerializer
+    serializer_class = serializers.TagSerializer
     queryset = Tag.objects.all()
 
 
 class IngredientViewSet(BaseRecipeAttrViewSet):
     """Manage ingredient in the database."""
-    serializer_class = serializer.IngredientSerializer
+    serializer_class = serializers.IngredientSerializer
     queryset = Ingredient.objects.all()
